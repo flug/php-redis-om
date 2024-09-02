@@ -39,7 +39,7 @@ abstract class AbstractObjectRepository implements RepositoryInterface
     {
         $this->convertDates($criteria);
         $this->convertSpecial($criteria);
-        $data = $this->redisClient->search($this->prefix, $criteria, $orderBy ?? [], $this->format, $limit);
+        $data = $this->redisClient->search($this->prefix, $criteria, $orderBy ?? [], $this->format, $limit, offset: $offset);
 
         $collection = [];
         foreach ($data as $item) {
@@ -61,7 +61,7 @@ abstract class AbstractObjectRepository implements RepositoryInterface
             unset($criteria[$property]);
         }
 
-        $data = $this->redisClient->search(prefixKey: $this->prefix, search: $criteria, orderBy: $orderBy ?? [], format:  $this->format, numberOfResults: $limit, searchType: Property::INDEX_TEXT);
+        $data = $this->redisClient->search(prefixKey: $this->prefix, search: $criteria, orderBy: $orderBy ?? [], format:  $this->format, numberOfResults: $limit, offset: $offset, searchType: Property::INDEX_TEXT);
 
         $collection = [];
         foreach ($data as $item) {
